@@ -88,7 +88,7 @@ func (s *Service) EventLookUp(id string) (*Event, *http.Response, error) {
 }
 
 // EventFeatured returns the featured event for a given location
-func (s *Service) EventFeatured(params *EventFeaturedParams) ([]Event, *http.Response) {
+func (s *Service) EventFeatured(params *EventFeaturedParams) ([]Event, *http.Response, error) {
 	events := new(eventsResp)
 	apiError := new(APIError)
 
