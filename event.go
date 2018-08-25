@@ -76,7 +76,7 @@ func (s *Service) EventSearch(params *EventSearchParams) ([]Event, *http.Respons
 
 // EventLookUp returns the detailed information of a Yelp event
 func (s *Service) EventLookUp(id string) (*Event, *http.Response, error) {
-	event := new(eventResp)
+	event := new(Event)
 	apiError := new(APIError)
 
 	resp, err := s.sling.New().Get("events/"+id).Receive(event, apiError)
@@ -84,18 +84,18 @@ func (s *Service) EventLookUp(id string) (*Event, *http.Response, error) {
 		err = apiError
 	}
 
-	return &event.Event, resp, err
+	return event, resp, err
 }
 
 // EventFeatured returns the featured event for a given location
-func (s *Service) EventFeatured(params *EventFeaturedParams) ([]Event, *http.Response, error) {
-	events := new(eventsResp)
+func (s *Service) EventFeatured(params *EventFeaturedParams) (*Event, *http.Response, error) {
+	event := new(Event)
 	apiError := new(APIError)
 
-	resp, err := s.sling.New().Get("events/featured").QueryStruct(params).Receive(events, apiError)
+	resp, err := s.sling.New().Get("events/featured").QueryStruct(params).Receive(event, apiError)
 	if err == nil {
 		err = apiError
 	}
 
-	return events.Events, resp, err
+	return event, resp, err
 }
