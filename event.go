@@ -29,20 +29,20 @@ type Event struct {
 }
 
 type EventSearchParams struct {
-	Locale         string     `url:"locale,omitempty"`
-	Offset         int        `url:"offset,omitempty"`
-	Limit          int        `url:"limit,omitempty"`
-	SortBy         string     `url:"sort_by,omitempty"`
-	SortOn         string     `url:"sort_on,omitempty"`
-	StartDate      int        `url:"start_date,omitempty"`
-	EndDate        int        `url:"end_date,omitempty"`
-	Categories     Categories `url:"categories,omitempty"`
-	IsFree         bool       `url:"is_free,omitempty"`
-	Location       string     `url:"location,omitempty"`
-	Latitude       float64    `url:"latitude,omitempty"`
-	Longitude      float64    `url:"longitude,omitempty"`
-	Radius         int        `url:"radius,omitempty"`
-	ExcludedEvents []string   `url:"excluded_events,omitempty"`
+	Locale         string   `url:"locale,omitempty"`
+	Offset         int      `url:"offset,omitempty"`
+	Limit          int      `url:"limit,omitempty"`
+	SortBy         string   `url:"sort_by,omitempty"`
+	SortOn         string   `url:"sort_on,omitempty"`
+	StartDate      int      `url:"start_date,omitempty"`
+	EndDate        int      `url:"end_date,omitempty"`
+	Categories     string   `url:"categories,omitempty"`
+	IsFree         bool     `url:"is_free,omitempty"`
+	Location       string   `url:"location,omitempty"`
+	Latitude       float64  `url:"latitude,omitempty"`
+	Longitude      float64  `url:"longitude,omitempty"`
+	Radius         int      `url:"radius,omitempty"`
+	ExcludedEvents []string `url:"excluded_events,omitempty"`
 }
 
 type EventFeaturedParams struct {
