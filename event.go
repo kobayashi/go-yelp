@@ -22,8 +22,8 @@ type Event struct {
 	Longitude       float64  `json:"longitude"`
 	Name            string   `json:"name"`
 	TicketsURL      string   `json:"tickets_url"`
-	TimeEnd         string   `json:"time_end"`
-	TimeStart       string   `json:"time_start"`
+	TimeEnd         time.TIME   `json:"time_end"`
+	TimeStart       time.TIME   `json:"time_start"`
 	Location        Location `json:"location"`
 	BusinessID      string   `json:"business_id"`
 }
