@@ -2,6 +2,7 @@ package yelp
 
 import (
 	"net/http"
+	"time"
 )
 
 // Event is an event information.
