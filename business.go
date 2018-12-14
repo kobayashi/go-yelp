@@ -1,7 +1,6 @@
 package yelp
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/dghubble/sling"
@@ -96,7 +95,6 @@ func (s *Service) BusinessSearch(params *BusinessSearchParams) ([]Business, *htt
 	if err == nil {
 		err = apiError
 	}
-	fmt.Println(*bsr)
 
 	return bsr.Bussinesses, resp, err
 }
