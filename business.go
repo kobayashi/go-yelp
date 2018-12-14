@@ -35,7 +35,7 @@ type BusinessService struct {
 	sling *sling.Sling
 }
 
-type businessSearchParams struct {
+type BusinessSearchParams struct {
 	Term       string     `json:"term,omitempty"`
 	Location   string     `json:"location,omitempty"`
 	Latitude   float64    `json:"latitude,omitempty"`
@@ -52,7 +52,7 @@ type businessSearchParams struct {
 	Attributes string     `json:"attributes,omitempty"`
 }
 
-type businessMatchParams struct {
+type BusinessMatchParams struct {
 	Name           string  `json:"name,omitempty"`
 	Address1       string  `json:"address_1,omitempty"`
 	Address2       string  `json:"address_2,omitempty"`
@@ -86,7 +86,7 @@ type businessReviewResp struct {
 }
 
 // Search returns up to 1000 businesses based on the provided search criteria
-func (s *Service) BusinessSearch(params *businessSearchParams) (Businesses, *http.Response, error) {
+func (s *Service) BusinessSearch(params *BusinessSearchParams) (Businesses, *http.Response, error) {
 	businesses := new(businessSearchResp)
 	apiError := new(APIError)
 
@@ -124,7 +124,7 @@ func (s *Service) BusinessDetail(id string) (Business, *http.Response, error) {
 	return business.Business, resp, err
 }
 
-func (s *Service) BusinessMatch(params *businessMatchParams) ([]Business, *http.Response, error) {
+func (s *Service) BusinessMatch(params *BusinessMatchParams) ([]Business, *http.Response, error) {
 	business := new(businessMatchResp)
 	apiError := new(APIError)
 
