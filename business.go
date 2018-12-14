@@ -1,32 +1,34 @@
 package yelp
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/dghubble/sling"
 )
 
 type Business struct {
-	Rating       int         `json:"rating"`
-	Price        string      `json:"price"`
-	Phone        string      `json:"phone"`
 	ID           string      `json:"id"`
 	Alias        string      `json:"alias"`
-	IsClosed     bool        `json:"is_closed"`
-	Categories   Categories  `json:"categories"`
-	ReviewCount  int         `json:"review_count"`
 	Name         string      `json:"name"`
-	URL          string      `json:"url"`
-	Coordinates  Coordinates `json:"coordinates"`
 	ImageURL     string      `json:"image_url"`
-	Location     Location    `json:"location"`
-	Distance     float64     `json:"distance"`
+	IsClosed     bool        `json:"is_closed"`
+	URL          string      `json:"url"`
+	ReviewCount  int         `json:"review_count"`
+	Categories   Categories  `json:"categories"`
+	Rating       int         `json:"rating"`
+	Coordinates  Coordinates `json:"coordinates"`
 	Transactions []string    `json:"transactions"`
+	Price        string      `json:"price"`
+	Location     Location    `json:"location"`
+	Phone        string      `json:"phone"`
+	DisplayPhone string      `json:"display_phone"`
+	Distance     float64     `json:"distance"`
 }
 
 type Businesses struct {
 	Total       int        `json:"total"`
-	Bussinesses []Business `json:"bussinesses"`
+	Bussinesses []Business `json:"businesses"`
 	Region      Region     `json:"region"`
 }
 
@@ -36,37 +38,37 @@ type BusinessService struct {
 }
 
 type BusinessSearchParams struct {
-	Term       string     `json:"term,omitempty"`
-	Location   string     `json:"location,omitempty"`
-	Latitude   float64    `json:"latitude,omitempty"`
-	Longitude  float64    `json:"longitude,omitempty"`
-	Radius     int        `json:"radius,omitempty"`
-	Categories Categories `json:"categories,omitempty"`
-	Locale     string     `json:"locale,omitempty"`
-	Limit      int        `json:"limit,omitempty"`
-	Offset     int        `json:"offset,omitempty"`
-	SortBy     string     `json:"sort_by,omitempty"`
-	Price      string     `json:"price,omitempty"`
-	OpenNow    bool       `json:"open_now,omitempty"`
-	OpenAt     int        `json:"open_at,omitempty"`
-	Attributes string     `json:"attributes,omitempty"`
+	Term       string     `url:"term,omitempty"`
+	Location   string     `url:"location,omitempty"`
+	Latitude   float64    `url:"latitude,omitempty"`
+	Longitude  float64    `url:"longitude,omitempty"`
+	Radius     int        `url:"radius,omitempty"`
+	Categories Categories `url:"categories,omitempty"`
+	Locale     string     `url:"locale,omitempty"`
+	Limit      int        `url:"limit,omitempty"`
+	Offset     int        `url:"offset,omitempty"`
+	SortBy     string     `url:"sort_by,omitempty"`
+	Price      string     `url:"price,omitempty"`
+	OpenNow    bool       `url:"open_now,omitempty"`
+	OpenAt     int        `url:"open_at,omitempty"`
+	Attributes string     `url:"attributes,omitempty"`
 }
 
 type BusinessMatchParams struct {
-	Name           string  `json:"name,omitempty"`
-	Address1       string  `json:"address_1,omitempty"`
-	Address2       string  `json:"address_2,omitempty"`
-	Address3       string  `json:"address_3,omitempty"`
-	City           string  `json:"city,omitempty"`
-	State          string  `json:"state,omitempty"`
-	Country        string  `json:"country,omitempty"`
-	Latitude       float64 `json:"latitude,omitempty"`
-	Longitude      float64 `json:"longitude,omitempty"`
-	Phone          string  `json:"phone,omitempty"`
-	ZipCode        string  `json:"zip_code,omitempty"`
-	YelpBusinessID string  `json:"yelp_business_id,omitempty"`
-	Limit          int     `json:"limit,omitempty"`
-	MatchThreshold string  `json:"match_threshold,omitempty"`
+	Name           string  `url:"name,omitempty"`
+	Address1       string  `url:"address_1,omitempty"`
+	Address2       string  `url:"address_2,omitempty"`
+	Address3       string  `url:"address_3,omitempty"`
+	City           string  `url:"city,omitempty"`
+	State          string  `url:"state,omitempty"`
+	Country        string  `url:"country,omitempty"`
+	Latitude       float64 `url:"latitude,omitempty"`
+	Longitude      float64 `url:"longitude,omitempty"`
+	Phone          string  `url:"phone,omitempty"`
+	ZipCode        string  `url:"zip_code,omitempty"`
+	YelpBusinessID string  `url:"yelp_business_id,omitempty"`
+	Limit          int     `url:"limit,omitempty"`
+	MatchThreshold string  `url:"match_threshold,omitempty"`
 }
 
 type businessResp struct {
@@ -74,7 +76,7 @@ type businessResp struct {
 }
 
 type businessSearchResp struct {
-	Businesses Businesses `json:"businesses"`
+	BusinessesResp Businesses `json:"businesses"`
 }
 
 type businessMatchResp struct {
@@ -86,16 +88,17 @@ type businessReviewResp struct {
 }
 
 // Search returns up to 1000 businesses based on the provided search criteria
-func (s *Service) BusinessSearch(params *BusinessSearchParams) (Businesses, *http.Response, error) {
-	businesses := new(businessSearchResp)
+func (s *Service) BusinessSearch(params *BusinessSearchParams) ([]Business, *http.Response, error) {
+	bsr := new(Businesses)
 	apiError := new(APIError)
 
-	resp, err := s.sling.New().Get("businesses/search").QueryStruct(params).Receive(businesses, apiError)
+	resp, err := s.sling.New().Get("businesses/search").QueryStruct(params).Receive(bsr, apiError)
 	if err == nil {
 		err = apiError
 	}
+	fmt.Println(*bsr)
 
-	return businesses.Businesses, resp, err
+	return bsr.Bussinesses, resp, err
 }
 
 // BusinessPhoneSearch returns a list of businesses based on the provided phone number.
@@ -108,12 +111,12 @@ func (s *Service) BusinessPhoneSearch(phone string) (Businesses, *http.Response,
 		err = apiError
 	}
 
-	return businesses.Businesses, resp, err
+	return businesses.BusinessesResp, resp, err
 }
 
 // BusinessDetail returns detailed business content.
-func (s *Service) BusinessDetail(id string) (Business, *http.Response, error) {
-	business := new(businessResp)
+func (s *Service) BusinessDetail(id string) (*Business, *http.Response, error) {
+	business := new(Business)
 	apiError := new(APIError)
 
 	resp, err := s.sling.New().Get("businesses/"+id).Receive(business, apiError)
@@ -121,7 +124,7 @@ func (s *Service) BusinessDetail(id string) (Business, *http.Response, error) {
 		err = apiError
 	}
 
-	return business.Business, resp, err
+	return business, resp, err
 }
 
 func (s *Service) BusinessMatch(params *BusinessMatchParams) ([]Business, *http.Response, error) {
