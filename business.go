@@ -37,20 +37,20 @@ type BusinessService struct {
 }
 
 type BusinessSearchParams struct {
-	Term       string     `url:"term,omitempty"`
-	Location   string     `url:"location,omitempty"`
-	Latitude   float64    `url:"latitude,omitempty"`
-	Longitude  float64    `url:"longitude,omitempty"`
-	Radius     int        `url:"radius,omitempty"`
-	Categories Categories `url:"categories,omitempty"`
-	Locale     string     `url:"locale,omitempty"`
-	Limit      int        `url:"limit,omitempty"`
-	Offset     int        `url:"offset,omitempty"`
-	SortBy     string     `url:"sort_by,omitempty"`
-	Price      string     `url:"price,omitempty"`
-	OpenNow    bool       `url:"open_now,omitempty"`
-	OpenAt     int        `url:"open_at,omitempty"`
-	Attributes string     `url:"attributes,omitempty"`
+	Term       string  `url:"term,omitempty"`
+	Location   string  `url:"location,omitempty"`
+	Latitude   float64 `url:"latitude,omitempty"`
+	Longitude  float64 `url:"longitude,omitempty"`
+	Radius     int     `url:"radius,omitempty"`
+	Categories string  `url:"categories,omitempty"`
+	Locale     string  `url:"locale,omitempty"`
+	Limit      int     `url:"limit,omitempty"`
+	Offset     int     `url:"offset,omitempty"`
+	SortBy     string  `url:"sort_by,omitempty"`
+	Price      string  `url:"price,omitempty"`
+	OpenNow    bool    `url:"open_now,omitempty"`
+	OpenAt     int     `url:"open_at,omitempty"`
+	Attributes string  `url:"attributes,omitempty"`
 }
 
 type BusinessMatchParams struct {
