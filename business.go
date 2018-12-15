@@ -137,14 +137,14 @@ func (s *Service) BusinessMatch(params *BusinessMatchParams) ([]Business, *http.
 	return business.BusinessList, resp, err
 }
 
-func (s *Service) BusinessReview(id string) (Reviews, *http.Response, error) {
-	reviews := new(businessReviewResp)
+func (s *Service) BusinessReview(id string) (*Reviews, *http.Response, error) {
+	reviews := new(Reviews)
 	apiError := new(APIError)
 
-	resp, err := s.sling.New().Get("businesses/"+id+"reviews").Receive(reviews, apiError)
+	resp, err := s.sling.New().Get("businesses/"+id+"/reviews").Receive(reviews, apiError)
 	if err == nil {
 		err = apiError
 	}
 
-	return reviews.Reviews, resp, err
+	return reviews, resp, err
 }

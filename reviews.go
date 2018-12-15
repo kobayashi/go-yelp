@@ -2,20 +2,21 @@ package yelp
 
 // Review is a review information for a business
 type Review struct {
-	ID     string `json:"id"`
-	Rating int    `json:"rating"`
-	User   struct {
-		ImageURL string `json:"image_url"`
-		Name     string `json:"name"`
-	} `json:"user"`
-	Text        string `json:"text"`
-	TimeCreated string `json:"time_created"`
+	ID          string `json:"id"`
 	URL         string `json:"url"`
+	Text        string `json:"text"`
+	Rating      int    `json:"rating"`
+	TimeCreated string `json:"time_created"`
+	User        struct {
+		ProfilURL string `json:"profile_url"`
+		ImageURL  string `json:"image_url"`
+		Name      string `json:"name"`
+	} `json:"user"`
 }
 
 // Reviews is a list of Review
 type Reviews struct {
-	Reviews           []Review
-	Total             int
-	PossibleLanguages []string
+	Reviews           []Review `json:"reviews"`
+	Total             int      `json:"total"`
+	PossibleLanguages []string `json:"possible_languages"`
 }
